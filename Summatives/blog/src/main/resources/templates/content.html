@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<head>
+
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.tiny.cloud/1/bssvnb7niywajpg5wb793wjn3jfydhou323l3p8llj1u0u04/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Blog Home - Blog Mastery</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog-home.css" rel="stylesheet">
+    <style> 
+        #tinyMCE{
+            width: 100%; 
+
+        }
+        body{
+            background-color:black;
+        }
+    </style>    
+
+</head>
+
+<body>
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background-color: rgb(35, 39, 43)!important; color:rgb(248, 248, 242)!important; ">
+        <div class="container">
+            <a class="navbar-brand" href="home">(っ◔◡◔)っ ♥ HOME ♥ </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <li role="presentation" class="nav-item">
+                        <a class="nav-link active" href="home">
+                            Home
+                        </a>
+                    </li>
+                    <li role="presentation" class="nav-item">
+                        <a class="nav-link" href="content">
+                            Content
+                        </a>
+                    </li>
+
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+
+
+                        <!--  This is only visible to users who also have the ADMIN role.-->
+
+                        <li role="presentation" class="nav-item">
+                            <a class="nav-link" href="admin">
+                                Admin 
+                            </a>
+                        </li>
+                    </div>
+            </div>
+    </nav> 
+
+
+</head>
+<body>
+    <title></title>
+</head>
+
+<!--------------------------------Login--------------->
+<h2>Create New Post</h2>
+<div sec:authorize="isAuthenticated()">
+    <form class="form-inline" 
+          method="POST" 
+          action="/logout">
+        <input type="hidden" 
+               th:name="${_csrf.parameterName}" 
+               th:value="${_csrf.token}"/>
+        <label for="submit">
+            Hello : <span th:text="${#authentication.name}">
+            </span>&nbsp;&nbsp;&nbsp;|
+        </label>
+        <button class="btn btn-link" 
+                id="submit" 
+                type="submit">Logout</button>
+    </form>
+</div>
+
+<!-- Page Content -->
+
+
+<!-- Post Form -->
+
+<div class="container">
+    <!--Row with two equal columns-->
+    <div class ="" style="background:rgb(39,41,53); color:rgb(348,248,242); padding:05%;"> 
+        <h1 class="display-4">Create a new thought!</h1>
+        <p class="lead">Have something you want to jot down?</p>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-sm-6"><!--Column left-->
+                <form form action="addPost" method="POST">
+                    <div class="form-group">
+
+
+                        <!----- TITLE ------> 
+
+                        <div class="form-group">
+                            <label for="text"></label> 
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"></div>
+                                </div> 
+                                <input id="text" name="title" type="text" class="form-control"   placeholder="Title of Post..."  required="required">
+                            </div>
+                            <!-------- IMAGE URL ------> 
+                            <label for="text"></label> 
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"></div>
+                                </div> 
+                                <input id="text" name="imageUrl" placeholder="Enter IMG url for post..." type="text" class="form-control"  >
+                            </div>
+                        </div>
+
+                        <!---- CHOOSE DRAFT/PUBLISH -----> 
+
+                        <div class="form-group" style="width:100%;" >
+                            <label for="staticFlag"></label> 
+                            <div>
+                                <select id="staticFlag" name="staticFlag" aria-describedby="staticFlagHelpBlock" required="required" class="custom-select">
+                                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <li role="presentation" class="nav-item">
+                                        <option value="true">Publish</option>
+                                        </a>
+                                        </li>
+                                    </div>
+
+                                    <option value="false">Draft</option>
+                                </select> 
+                                <span id="staticFlagHelpBlock" class="form-text text-muted">Would you like to publish or save for later?</span>
+                            </div>
+                        </div>
+
+
+
+                        <!---- SELECT POST TYPE -----> 
+                        <div class="form-group">
+                            <label for="selectPostType"></label> 
+                            <div>
+                                <select id="selectPostType" name="selectPostType" class="custom-select" aria-describedby="selectPostTypeHelpBlock" required="required">
+                                    <option value="false">Post</option>
+                                    <option value="true">Static</option>
+
+                                </select> 
+                                <span id="selectPostTypeHelpBlock" class="form-text text-muted">Static pages will be added to the Navigation Bar, and posts will be added to your blog.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="form-group">
+                                <label for="selectPostType"></label> 
+                                <div>
+                                    <select id="selectRoleType" name="selectRoleType" class="custom-select" aria-describedby="selectPostTypeHelpBlock" required="required">
+                                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                            <li role="presentation" class="nav-item">
+                                            <option value="admin">admin</option>
+                                            </a>
+                                            </li>
+                                        </div>
+
+                                        <option value="user">user</option>
+
+                                    </select> 
+                                    <span id="selectPostTypeHelpBlock" class="form-text text-muted">Static pages will be added to the Navigation Bar, and posts will be added to your blog.</span>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+            </div>
+
+            <BR>
+            <BR>
+
+
+            <div class="col-sm-6"><!--Column right-->  
+
+                <div class="jumbotron" id="tinyMCE" >
+                    <p class="lead" style=" padding: 0%; color:rgb(39,41,53);">The meat and bones ... </p>
+                    <hr class="my-4">
+                    <textarea  id ="txtArea" name ="txtArea"  class="textarea"  placeholder="Enter text ..." style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; "></textarea>
+                    </textarea>
+                    <script>
+                        tinymce.init({
+                            selector: 'textarea',
+                            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+                            toolbar_mode: 'floating',
+                            tinycomments_mode: 'embedded',
+                            tinycomments_author: 'Author name'
+                        });
+                    </script>
+                    </body> 
+
+
+                </div>
+
+
+                <!------- TAGS ---------->
+                <div class="col-sm-12"><!--Column left-->
+
+                    <div class="form-group ">
+                        <label for="hashTags" >
+                            Select a Tag</label>
+
+                        <div>
+                            <select multiple   id="hashTags" name="hashTags" 
+                                    class="form-control" >
+                                <option th:each= "hashTag : ${hashTags}" 
+                                        th:value="${hashTag.hashTagId}" 
+                                        th:text="${hashTag.hashTag}">
+                                    HashTags</option>
+                            </select>
+                            <form class="form-horizontal">
+                                <input type="hidden"                        
+                                       th:name="${_csrf.parameterName}"
+                                       th:value="${_csrf.token}"/>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12"><!--Column left-->   
+                    <div class="">
+
+                        <button name="submit"  type="submit" class="btn btn-primary">Submit</button>
+
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+</div> 
+
+</fieldset>
+</form>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="http://bootstrap-wysiwyg.github.io/bootstrap3-wysiwyg/components/handlebars/handlebars.runtime.min.js"></script>
+<script src="http://bootstrap-wysiwyg.github.io/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.min.js"></script>
+<script src="http://bootstrap-wysiwyg.github.io/bootstrap3-wysiwyg/components/wysihtml5x/dist/wysihtml5x-toolbar.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+</body>
+
+

@@ -1,0 +1,47 @@
+JAVA NOTES : 
+
+GENERICS : 
+
+Essentially it is a generic type to help eliminate duplicate code. We use generics to create one class, and save ourselves from duplicating code. 
+
+When passing in a Generic Type it can't be a primitive type, it needs to be an object. 
+
+The most commonly used type parameter names are:
+
+    E - Element (used extensively by the Java Collections Framework)
+    K - Key
+    N - Number
+    T - Type
+    V - Value
+    S,U,V etc. - 2nd, 3rd, 4th types
+
+
+
+Syntax : 
+
+Public class MyClass<T, V> { 
+T object;
+MyClass(T ob, v ob2){
+This.ob = ob;
+} 
+// Since we don't know what type of variable to passing in, we pass in Type T.
+} 
+
+
+Class Main 
+
+Public static void main(String[]args) { 
+Myclass<Integer, Double> obj = new MyClass<>(ob:10);  
+Myclass<Double> obj = new MyClass<>(ob:20.0);  
+
+Obj.showType(); // Integer
+Obj2.showType(); // Double
+
+
+// Here We are passing the variable inside the <> 
+
+
+Row Mapper 
+Allows to map a row of the relations with the instance of user defined class. It iterates the ResultSet internally and adds it into the collection. So we don't need to write a lot of code to fetch the records as ResultSetExtractor. 
+
+

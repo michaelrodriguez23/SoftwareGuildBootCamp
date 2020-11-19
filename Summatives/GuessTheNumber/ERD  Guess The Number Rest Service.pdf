@@ -1,0 +1,531 @@
+ERD  Guess The Number Rest Service
+
+Round has one Game
+
+Game can have many rounds
+
+One to many relationship. 
+One Game has many Rounds
+========================
+****************KEY*********************
+
+> package name
+    +class name : interface/inheritence 
+        + public name : return type
+        - private name : return type
+        
+<T> Generic Type 
+(g/s) Getters and Setters
+ ai Auto Increment 
+ pk primary key
+ fk foreign key
+
+*****************************************
+======NOTES================
+
+// Unsure about my Service Layer in the Class Diagrams
+// Should the arguements being passed in be objects or Ids for the object? 
+
+// Make note that the RoundId doesn't
+// correlate to the round , the timeStamp of the Id indicates which round  it is 
+
+// This is what a rowMapper looks like in Java
+// Allows us ti map a row of the relations with the instance of user defined class. It iterates 
+// the ResultSet internally and adds it into the collection. So we don't need to write a lot of 
+// code to fetch the records as ResultSetExtractor. 
+
+
+// A Game should have an answer and a status (in progress or finished). While the game is in progress, // users should not be able to see the answer. The answer will be a 4-digit number with no duplicate // digits.
+
+Each Round will have a guess, the time of the guess, and the result of the guess in the format "e:0:p:0" where "e" stands for exact matches and "p" stands for partial matches.
+
+// Does the sequnce diagram look like the mastery? 
+// Does it differ from Controller -> Service -> Dao -> Service -> Controller ?
+// DONT SELECT SWING TREE!!! Either in the Dao or the controller. 
+// public ToDo mapRow(ResultSet rs, int index) throws SQLException {
+        ToDo td = new ToDo();
+        td.setId(rs.getInt("id"));
+        td.setNote(rs.getString("note"));
+        td.setTodo(rs.getString("todo"));
+        td.setFinished(rs.getBoolean("finished"));
+        return td;
+    }
+
+ // Bool, Boolean: These types are synonyms for TINYINT(1). A value of zero is considered false. Non-zero values are considered true.
+
+jdbc.query = List<T> of objects
+jdbc.queryForObject = 1 object
+jdbc.update = insert, update, 
+
+
+
+CRUD FUNCTIONALITY : 
+
+	Create : 
+    "begin" - POST – Starts a game, generates an answer, and sets the correct status. Should return a 201 CREATED message as well as the created gameId.  
+
+    Update : 
+    "guess" – POST – Makes a guess by passing the guess and gameId in as JSON. The program must calculate the results of the guess and mark the game finished if the guess is correct. It returns the Round object with the results filled in.
+    
+    Read All :  
+    "game" – GET – Returns a list of all games. Be sure in-progress games do not display their answer.
+
+    ReadBy Id : 
+
+    "game/{gameId}" - GET – Returns a specific game based on ID. Be sure in-progress games do not display their answer.
+    
+    "rounds/{gameId} – GET – Returns a list of rounds for the specified game sorted by time.
+
+=============ERD===================
+Rounds
+	roundId INT pk ai not null
+	gameId INT fk (Game) not null
+	guess CHAR(4) not null
+	timeStampOfRound DATE not null
+	result VARCHAr(10)
+
+Games
+	gameId INT Ai pk not null
+	fourDigitNumber CHAR(4) not null
+	statusOfGame BIT not null
+=============DTO====================
+Round
+	- roundId : int
+	- guess : String
+	- timeStamp : Date
+	- game : Game
+	
+Game
+	- gameId : int
+	- fourDigitNumber : BooleanDao
+	- status : Boolean
+	- round : List<Round> 
+
+GameViewModel 
+	- gameViewId : int 
+	- answer : String // we handle this in the service
+	- viewModelSt : String // ("Complete or "In proress") - Easier for the viewer to undestand it 
+	- timeStamp : String 
+
+RoundViewModel 
+	- roundViewId : int
+	- guess : String 
+	- result : String ("3 Exact Match, 1 Incorrect")
+	- gameId : Int 
+	- gameStatus : String("Complete or "In proress") - This more useful and readable for the end user 
+	- timeStamp : String
+
+
+
+This will be JSON 
+Handled in the service layer. The service layer would convert it to a dto object. The conversions. 
+This can be transfered over through a constructor . The service should do the business logic. 
+
+Getters and setters. 
+
+Models only have properties. Your dtos are pure objects with getters and service. And your service layer should modify those DTOs. 
+
+Think of the service as a washing machine. 
+Your clothes are your objects , tyhey are dtos. 
+You clothes have stae, ythey are dirty. 
+
+You put your clothes in the washing machine.
+The state of the clothes are wet. 
+
+
+Data we want to keep track of ... is the fields. 
+Game service does the the methods of 
+
+
+==============DAO===================
++DAO<T>  
+	+ Create(T DTO) :T  
+	+ ReadAll() : List<T>
+	+ ReadById(int  id) : T
+	+ Update(T DTO) : boolean
+	+ Delete(int  id) : boolean
+
++RoundDao : DAO<Round>
+	- jdbc : Jdbc template 
+	+ setDataSource(DataSource ds): void 
+
+	+ RoundDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Round
+	- getGame(int GameId)  : Game
+
++GameDao : DAO<Game> 
+	- jdbc : Jdbc template 
+	+ GameDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Round
+	- getGame(int GameId)  : Game
+
++RowMapper<T>
+	+ mapRow(ResultSet rs, int i) throws SQLException
++RoundMapper : RowMapper<Round>
++GameMapper : RowMapper<Game> 
+
+=============Class Diagram================
+
+> com.mr.bullsandcows
+.controller
+    + BullsAndCows
+    Controller
+        - service : BullsAndCowsService
+        + BullsAndCows
+        Controller(BullsAndCows
+        Service service)
+        
+        - Scanner sc: void 
+        - DataSource ds : void 
+
+       
+        + run() : void
+        - beginGame() : int
+        - guess() : void 
+        - viewAllGames() : void
+        - viewAllRounds() : void 
+        - removeGame() : void
+
+>com.mr.BullsAndCows
+.dtos
+	
+ 	+Round
+		- RoundId : int (g/s)
+		- Guess : String (g/s)
+		- TimeStamp : Date (g/s)
+		- Result : String (g/s)
+		- Game : game (g/s)
+
+	+Game
+		- GameId : int (g/s)
+		- FourDigitNumber : String (g/s)
+		- Status : Boolean / Bit (g/s)
+		- <Rounds> : List (g/s) 
+
+>com.mr.BullsAndCows
+.Daos
+	
++DAO<T>  
+	+Create(T DTO) : T 
+	+ReadAll() : List<T>
+	+ReadById(int id) : void 
+	+Update(T DTO) : void
+
++RoundDao : DAO<Round>
+	- dataSource : connection
+	- jdbc : Jdbc template 
+	+ roundDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Rounda
+	- getGame(int GameId)  : Game
+	- getGuess(String guess) : String 
+	- getTimeStamp(Date timeStamp) : Date
+
+	// In rounds there is no update or delete
+
+
+
++ RoundFileImpl : RoundDao
+	- Rounds :  List <Round>
+
++GameDao : DAO<Game> 
+	- jdbc : Jdbc template 
+	+ GameDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Round
+	- getGame(int GameId)  : Game
+	- getFourDigitNumber(String fourDigitNumber) : String
+	- getStatus(String status) : boolean 
+	- getListOfRounds(int GameId) :  List<Round>
+
+>com.mr.bullsandcows
+.RowMapper
+
++ RowMapper<T>
+ 	+ T mapRow(ResultSet rs, int i) throws SQLException
+ 
++ RoundMapper : RowMapper<Round> 
++ GameMapper : RowMapper<Game>
+
+>com.mr.bullsandcows
+.Service 
+
++bullsandcows
+Service 
+	Exception e : Exception 
+	DuplicateGameException : Exception 
+	InvalidGameException : Exception 
+	GameNotFoundException : Exception 
+	PersistenceException : Exception 
+	Exception e : Exception 
+
++ BeginNewGame(Game game): Game  throws DuplicateGameException , InvalidGameException, PersistenceException // POST
++ Guess(int gameId, String guess) : Game  throws InvalidGameException. // POST
++ DeleteGame(Game game) : Game throws GameNotFoundException // POST
++ FindActiveGame(Game game) : Game throws InvalidGameException  // GET
++ DisplayAllGamesToDate(localDate) : List <Game> throws InvalidGameException, Exception e // GET
++ DisplayAllRounds(Game game) : List <Round> throws InvalidGameException, Exception e // GET
+
+
++ BullsAndCows
+ServiceImpl : BullsAndCows
+Service
+		-  RoundDao : RoundDao 
+		-  GameDao : GameDao
+		+ BullsAndCows
+		ServiceImpl(RoundDao roundDao, GameDao gameDao, ServiceDao serviceDao)
+ 
++RoundDao : DAO<Round>
+	- dataSource : connection
+	- jdbc : Jdbc template 
+	+ roundDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Round
+	- getGame(int GameId)  : Game
+	- getGuess(String guess) : String 
+	- getTimeStamp(Date timeStamp) : Date
+
++GameDao : DAO<Game> 
+	- jdbc : Jdbc template 
+	+ GameDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Round
+	- getGame(int GameId)  : Game
+	- getFourDigitNumber(String fourDigitNumber) : String
+	- getStatus(String status) : boolean 
+	- getTimeStamp(Date timeStamp) : Date
+	- getListOfRounds(int GameId) :  List<Round>
+
+
+
+peaky blinders
+Vikens 
+The Last Kingdom 
+
+
+Game
+Game
+ID
+Status
+
+The answer is sometimes displayed sometimes not depending if its active or finished. 
+We can handle this in the view model, instead of the game object. 
+The view model in another package in your dto object. Only for your view. 
+Your view is for another program to interact with you. We are programming the view for anyone to possibly to connect with. 
+	
+@AUTOWIRED Is on is wherewe used to have Depenedency Injections
+
+The autowired should go whenever you are declaring and defining your daos in your service layer. 
+AUTOWIRED IS property inejction, you wouldnt need it but iit will make it easier for Unittesting. 
+And we will need it in the controller in your service layer. 
+Your repository is what is holding your data, they belong in all the DAO implementations
+
+FOR EXCEPTIONS , the way we are catching them is by 
+We will need to create a exception then we will through the new excpetion. THe exception handler, woudld catch it and process it and return a message. 
+We throw the exception within the controller, instead of using a try - catch . 
+OVERLOAD it with what is in the LMS. REWIRING THE The exception handler to a simplified note. Add the lms class . 
+
+ADD EXCEPTYION HANDLER. 
+@EXCEOTION HANDLER 
+Its a seperate class from the controller, 
+Webrequest is the data coming in from the API , when making the API request in postman. 
+IT will have all the data from the web request to the RESTcontroller. 
+IT would be good to make a breakpoint.  on the webrequest to see whats coming in. 
+Webrequest is useful when logging data .
+
+
+
+===========Spring boot Rest Service ============= 
+
+We want to build a web application that allows CRUD operations on TODos via HTTP Request. 
+Data and Feedback are provided in HTTP responses. The application doesn't include a user interface, but we are implementing a view model by using objects. To make to response understanble as if it was a view. 
+
+- We Need to add the Spring Boot Dependencies to the pom.xml 
+- Clean -> Build with dependencies. 
+- Create a class with a main method, add ther Spring boot. 
+
+
+==== Introduction toSpring Mvc with Spring Boot ===== 
+
+Most general- purpose programming languages have on or more libraroes designed to make web applications easy and productive. 
+
+Spring MVC is one of them , it is a library and a framework. Spring MVC supports a wide range of web applications, from apps that present complext user interfaces made from html, css, and javascript. It also  provides web services as a function to the back end of things . 
+
+It implements the MVC(Model View Controller) pattern . 
+
+	A well-formed htttp request activates a controller method. A controller is a plain old java class with methods that handle requests.
+
+	The controller method executes actions that result in data. That data is the model. 
+
+	The model is merged into a view. The result is included in the HTTP responses as 
+
+Spring MVC makes heavy use of Spring depenedency injection. It can be configured via XML or Java annotations. 
+
+==============HOLLYWOOD PRINCIPLE===============
+
+ The application starts and waits for an HTTP request, unsure when or if it will come. 
+ Wow thats deep. 
+
+ The hollywood principle or "Don't call us, we'll call you. "
+ Theres no gaurantee if the HTTP request will ever be called. 
+
+ First  a web server recieves a raw HTTP request, validates it, and then decides if theres an application that hknows how to handle it.
+ 
+ Then core Spring MVC code further processes the HTTTP request into easy-to-use objects. We never handle raw code decides if one of our controller methods knows how to handle the request. 
+ 
+ If it does, Spring MVC calls our code, grabs the result, and then transofrms into a full bl0wn HTTP . This inversion of control is distinguishing difference between a library and a framework. 
+
+===============Spring Boot==================
+
+Spring boot isnt a stand alone library. 
+Its a way of running complicated programs with little or no configuration. 
+They just work . 
+
+Spring boot includes starter packages that bundle and configure a set of depenedenies requiered to do a job. 
+
+There are starts for data acess, web development, logging, batch processing and more. 
+Spring boot manages dependencies with the following assumptions... 
+
+
+	AUTOMATIC CONFIGURATION
+
+Spring boot uses a convention-over-configuration approach. That means each depenedency is configured internally with logical defaults.
+
+When configuration is not optional. For example with database connection string, it's kept to a minimum. PLEASE DONT FREAK OUT! Dependencies are still completely configurable, but configuration is not required. 
+
+
+	SWAPPABLE
+Functionally-equivalent dependencies can be swapped. 
+
+	STAND-ALONE EXECUTION 
+Spring boot Applications run on thier own with nothing else required. Thats especially nice for web development. Spring boot applications run without needing to use an external server. 
+
+========Spring MVC WITH SPRING BOOT=======
+
+Running Spring MVC with Spring Boot includes an internal web server. 
+When we run an application, we start a web server that listens on the network and responds to HTTP requests.
+
+The internal web server interrogates each request and decides if it should use some of our handy java code. Our Java code generates an HTTP response. The response commonly includes HTML or JSON content. 
+
+==========POSTMAN=================
+
+I began to test if postman works getting a Url like hackernews. 
+It provided a status of 200 Ok meaning it works. 
+
+The url will be cuter in the browser, well hackernews is pretty minimal. 
+So maybe I will take that back. 
+
+But here Postman is showing HTTP is just a bunch of text being sent back and forth between computers. Postman is better than a web browsers for inspecting JSON. 
+
+=========JSON=========
+
+JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. 
+
+JSON is built on two structures : 
+
+
+    A collection of name/value pairs. In various languages, this is realized as an object, record, struct, dictionary, hash table, keyed list, or associative array.
+    An ordered list of values. In most languages, this is realized as an array, vector, list, or sequence.
+
+
+How to implement API request. 
+
+===========Spring MVC=====================
+
+RestController enables it to be used as a web controller. 
+
+These annotations are native to spring-boot-starter-web dependency. 
+@ScreenBootApplication kicks off a component scan starting in the annotated class package. 
+The scan will miss componets shallower package hierachy. 
+
+@RestController : This annotation notifies Spring MVC that this calass should register with Spring Application context , and that it may contain methods that handle REST request. 
+
+@RequestMapping("/api") Mapping or routing determines if a given url, HTTP method, HTTP header, or media type triggers a specific controller method.  
+By using this annotation we are telling Spring MVC that this class can only handle URLs that begin with "/api" . We don't have to map request at the class level, but its convenient. 
+We can also map requests individually by method. 
+
+@GetMapping : 
+
+@Repository is a class level annotation that tells Spring this is an injectable bean. Functionally the same as @Component. The Repository pattern presents a collection-like interface for a data store. We add, update, find, get, or delete without needing to know exactly how the data is stored. Most Daos are repositories .  
+
+@Transactional 
+Every query run against the database in this method is part of a single transaction. If any queries fail, the program will roll back all of them. It also means that they all run together with no other queries getting in the way, which is what we are taking advantage of to get the assigned ID out. 
+
+@ControllerAdvice indicates our class will assist all controllers in our project.
+
+@Profile 
+
+@POSTMAPPING ENABLES OUR METHOD TO ACCEPT POST REQUEST FOR THE PATH. 
+
+=======RowMapper==========
+
+Like ResultSetExtractor, we can use the RowMapper interface to fetch records from the database using query() method of JdbcTemplate class. When we execute we need to pass in the instance of RowMapper now. 
+
+Syntax of query method using RowMapper 
+
+public T query(String sql, RowMapper<T>rm)
+
+
+RowMapper interface allows to map the relationship when instantiated from a class that was user defined. Internally it iterates the ResultSet , and then adds it to the collection. This saves us writing a lot of code , thank you jdbc. Now we can fetch record as ResultSetExtractor. 
+
+
+Controller -> service 
+controller only has one call. 
+
+Spring MVC with Spring Boot
+
+Running Spring MVC with Spring Boot includes an internal web server. When we run an application, we start a web server that listens on the network and responds to HTTP requests. The internal web server analyzes each request and decides if it needs to run some of the java code. Our Java code generates an HTTP response. The response commonly includes HTML or JSON as content. 
+
+@RestController is the part of the code that tells Spring Boot this class should be treated as the controller. 
+
+@RequestMapping takes in two arguements, where you have to specify path and API Method(GET,POST,PUT). If you dont specify anything it takes GET as defualt. 
+
+@Entity is the keyword that tells the SPRING BOOT that the following class should be considered as a Table Class. Class parameters are fields of the table. 
+
+===========Spring Boot Profiles =================
+
+If we annotate a class with @Profile("profile-name"). 
+It can be used conditionally, depending on the configuration. 
+
+In the application.properties file you can select the profile that can be active. 
+# Set the active dependency profile as "database". 
+# This selects ToDoDatabaseDao as the ToDoController's ToDoDao.
+spring.profiles.active=database
+
+It is common to use profiles to change behaviour across enviroments.
+You can annotate certain components to decide how to treat it. 
+For example we can annotate dependencies wi9th @profile("test") vs the production with Profile("prod"). Its easy to conifugre the approapriate set of dependencies for each profile. 
+========Exception Handling===============================
+
+First create a class to hold our custom error message. It doesnt need to extend Exception. 
+Its a simple container for transmitting error data. 
+
+That class should be in the controllers package when dealing with the controller.
+ We then need to add a ControllerexceptionHandler class to the same package. 
+
+@ControllerAdvice indicates our class will assist with all controllers in our project. 
+
+@RestController indicates our class is able to serve an HTTP response on behalf of a controller. 
+
+ToDoControllerExceptionHandler extends ResponseEntityExceptionHandler
+ -> The ResponseEntityExceptionHandler class contains a bunch of exceptions for handling code, so we get it for free when extending. 
+
+ We add methods -> Each method must accept a java exception and WebRequest as parameters and return a ResponseEntity<T>. 
+
+In addition we annotate each method to indicate which exception its handling. 
+@ExceptionHandler((SQLIntegrityConstraintViolationException.class). 
+
+Inside the method, we are free to contruct our ResponseEntity in any way we see fit. In this case we return an instance of Error inside and anonymize our exception details. 
+
+
+
+
+==========JUNIT TESTING WITHIN SPRING BOOOT ============
+
+We wanna add our dependencies for Spring Boot Junit 
+, then in our main app class configure it to use componentScan to search for testApplication
+
+-> Next create a test DB in MYSQL ->  just like the regular program we will need to create a resources package in test, to contain the application properties to link it to the test db . 
+
+We then want to go to the DAO we are testing, right click , navigate -> Go to Test class
+to create a Testing Dao. 
+
+
+
+

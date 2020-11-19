@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Blog For Mastery</title>
+        <!-- Bootstrap core CSS -->
+        <link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/6747ed3671ebc8e475b3211464639380ae3cd0f2/docs/interactions/examples/musicplayer/bootstrap/css/bootstrap.css'/>
+        <!-- Custom styles for this template -->
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+        <link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/809222bcb870480641249ef39b4d8b3ed6ad94fe/docs/interactions/examples/menureveal-new/blog.css'/>
+
+        <script>/* Pinegrow Interactions, do not remove */ try{if (!document.documentElement.hasAttribute('data-pg-ia-disabled')) { var style = document.createElement('style'); var pgcss = 'html:not(.pg-ia-no-preview) [data-pg-ia-hide=""] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show=""] {opacity:1;visibility:visible;display:block;}'; if (document.documentElement.hasAttribute('data-pg-id')?document.documentElement.hasAttribute('data-pg-mobile'):(screen.width < 1000 && screen.height < 1000)){pgcss += 'html:not(.pg-ia-no-preview) [data-pg-ia-hide="mobile"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="mobile"] {opacity:1;visibility:visible;display:block;}'; } else{pgcss += 'html:not(.pg-ia-no-preview) [data-pg-ia-hide="desktop"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="desktop"] {opacity:1;visibility:visible;display:block;}'; }style.innerHTML = pgcss; document.querySelector('head').appendChild(style); }} catch (e){console && console.log(e); }</script>
+
+        <style> 
+            body{
+                background-color: black;
+                color:white;
+             
+            }
+            img {
+                float: left;
+                width:  200px;
+                height: 200px;
+                object-fit: cover;
+                display: fill;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style> 
+    </head>
+ 
+
+    <!-- Navigation -->
+   <div sec:authorize="isAuthenticated()">
+    <form class="form-inline" 
+          method="POST" 
+          action="/logout">
+        <input type="hidden" 
+               th:name="${_csrf.parameterName}" 
+               th:value="${_csrf.token}"/>
+        <label for="submit">
+            Hello : <span th:text="${#authentication.name}">
+            </span>&nbsp;&nbsp;&nbsp;|
+        </label>
+        <button class="btn btn-link" 
+                id="submit" 
+                type="submit">Logout</button>
+    </form>
+</div>
+    <br>
+   
+
+    <!-- Navbar content -->
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background-color: rgb(35, 39, 43)!important; color:white! important; ">
+        <div class="container">
+            <a class="navbar-brand" href="home">(っ◔◡◔)っ ♥ HOME ♥ </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <li role="presentation" class="nav-item">
+                        <a class="nav-link active" href="home">
+                            Home
+                        </a>
+                    </li>
+                    <li role="presentation" class="nav-item">
+                        <a class="nav-link" href="content">
+                            Post
+                        </a>
+                    </li>
+                    <div>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+
+
+                            <!--  This is only visible to users who also have the ADMIN role.-->
+
+                            <li role="presentation" class="nav-item">
+                                <a class="nav-link" href="admin">
+                                    Admin 
+                                </a>
+                            </li>
+                        </div>
+
+                    </div>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+
+    <div class="container" >
+        <div class="row"  style="background:rgb(39,41,53); color:rgb(348,248,242);"> 
+
+            <div class="col-md-12" th:if = "${result != null}">
+
+
+                <ul class="navbar-nav ml-auto"  >
+                    <li th:each="staticPost : ${staticPostList}">
+                        <span th:text="${staticPost}" th:remove="tag"></span>
+                        <a href='#' class='close' aria-hidden='true'>&times;</a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            </head>
+
+
+            <body>
+
+        </div>
+    </div>
+
+    <p>
+        <!--   The landing page of our application - anyone can get here, including anonymous users. -->
+    </p>
+    <div sec:authorize="isAuthenticated()">
+        <p>
+
+            <!--  This is only visible to users who are logged in. -->
+        </p>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <p>
+
+                <!--  This is only visible to users who also have the ADMIN role.-->
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Page Content -->
+<!----------------------------------- header----------------------------------------------------------->
+<div > 
+<body data-pg-ia-scene='{"d":"0","s":"onLeave","o":"500px","dbg":"menu reveal","l":[{"p":"time","rev":"true","a":{"n":"","l":[{"t":".nav-scroller","l":[{"t":"set","p":0,"d":0,"l":{"position":"fixed","top":"0","left":"0","width":"100%","zIndex":"9999","background":"white","boxShadow":"0 2px 3px #efefef","y":"-100%"}},{"t":"tween","p":0,"d":0.2,"l":{"y":"0%"}}]},{"t":"&gt; div.container:nth-of-type(1)","l":[{"t":"set","p":0,"d":0,"l":{"marginBottom":"52px"}}]}]}}]}'>
+    <div class="container" >
+        <header class="blog-header py-3" style="padding: 5px;  background-color: rgb(39,41,53) !important">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <div class="col-4 pt-1">
+                    <a class="" href="/login">Login</a>
+                       <div sec:authorize="isAuthenticated()">
+    <form class="form-inline" 
+          method="POST" 
+          action="/logout">
+        <input type="hidden" 
+               th:name="${_csrf.parameterName}" 
+               th:value="${_csrf.token}"/>
+        <label for="submit">
+            Hello : <span th:text="${#authentication.name}">
+            </span>&nbsp;&nbsp;&nbsp;|
+        </label>
+        <button class="btn btn-link" 
+                id="submit" 
+                type="submit">Logout</button>
+    </form>
+</div>
+                </div>
+                
+                <div class="col-4 text-center" >
+                    <a class="blog-header-logo " style="color:white !important;" href="#">Thought Stream </a>
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <a class="" href="#"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3">
+                        <circle cx="10.5" cy="10.5" r="7.5"></circle>
+                        <line x1="21" y1="21" x2="15.8" y2="15.8"></line>
+                        </svg> </a>
+                    <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
+                </div>
+            </div>
+        </header>
+    </div>
+    
+
+
+
+
+    <!-- Blog Post -->
+    <div class="nav-scroller py-1 mb-2  " >
+        <div class="container border-bottom">
+            <nav class="nav d-flex justify-content-between" >
+                <a class="p-2 text-light" th:each="hashTag : ${hashTagList}" th:href="@{/hashTagDetails(id=${hashTag.hashTagId})}">
+                    <span th:text="${hashTag.hashTag}" ></span>
+                </a>
+
+            </nav>
+        </div>
+    </div>
+    <!---------------------------- JUMBO TRON -------------------------->
+    <div class="container" th:each="lastPost : ${lastPosts}">
+
+<!--        <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark " style="background-color: rgb(39,41,53) !important" id="parent" >
+                        <img class="lead" style="float:right;
+                             justify-content: center;  " th:src="@{${lastPost.imgUrl}}"/> -->
+
+
+<!--            <div class="col-md-6 px-0">  
+                <h1 class="display-4 font-italic"><span  th:text="${lastPost.title}" </span></h1>
+                 <p class="card-text mb-auto"><span  th:utext="${ ' ' + lastPost.date}" </span></p>
+                 <p class="lead my-3" th:utext="${'By :  ' + lastPost.user.firstName}"></p>  
+                <p class="lead mb-0"><a th:href="@{/postDetails(id=${lastPost.postId})}" class="text-white font-weight-bold">Continue reading...</a></p>
+            </div>
+
+
+        </div>-->
+
+
+
+    <!------------------------------------- 2nd Feature row ------------------------------->
+
+
+
+
+
+    <div class="row mb-2 "  >
+        <div class="col-md-6" th:each="randomPost : ${TwoRandomPosts}">
+            <div class="card flex-md-row mb-4 box-shadow h-md-250 " style="background-color: rgb(39,41,53) !important; color:white !important;" >
+                <div class="card-body d-flex flex-column align-items-start">
+                    <strong class="d-inline-block mb-2 text-primary" th:each="hashTagByPost : ${hashTagsByPostId}">
+                        <span  th:text="${hashTagByPost.hashTag}" th:remove="tag"></span></a>
+                    </strong>
+                    <h3 class="mb-0"> <a class="text-light" href="#" ><span  th:text="${randomPost.title}" </span></a> </h3>
+                    <div class="mb-1 text-muted"></div>
+                    <p class="card-text mb-auto"><span  th:utext="${'By : ' + randomPost.user.firstName +' ' + randomPost.user.lastName}" </span></p>
+                    <p class="card-text mb-auto"><span  th:utext="${'  ' + randomPost.date}" </span></p>
+                    <a th:href="@{/postDetails(id=${randomPost.postId})}">Continue reading</a>
+                </div>
+                <img class="card-img-right flex-auto d-none d-md-block" th:src="@{${randomPost.imgUrl}}"/> 
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!----------------------- Blog List ------------------------>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-6 blog-main"  >
+            <h3 class="pb-3 mb-4 font-italic border-bottom">
+                the thought feed</h3>
+            <div class="blog-post border-bottom" th:each="post : ${posts}">
+                <h2 class="blog-post-title"><span class="" th:text="${post.title}"></span></h2>
+                <a href="#">
+                    <span class="" th:text="${post.user.firstName + ' ' + post.user.lastName}"></span>
+                    <span class="" th:text="${post.date + ' '}"></span> </a></p>
+                <p><span class="" th:utext="${post.post}"></span></p>
+                <a th:href="@{/postDetails(id=${post.postId})}">Continue reading</a>
+                <hr>
+                <!--                    <img class="card-img-right flex-auto d-none d-md-block" th:src="@{${post.imgUrl}}"/> -->
+
+
+            </div>
+        </div>
+
+        <aside class="col-md-6 blog-sidebar">
+            <div style="color:black! important;" class="p-3 mb-3 bg-light rounded" th:each="staticPost : ${staticPostList}">
+                <h4 class="font-italic" > 
+                    <a  th:href="@{/postDetails(id=${staticPost.postId})}">   
+                        <span th:text="${staticPost.title}"></span>
+                    </a></h4>
+                <p class="mb-0">    <span th:utext="${staticPost.post}"></span><em></p>
+            </div>
+            <div class="p-3">
+                <h4 class="font-italic">Archives</h4>
+                <ol class="list-unstyled mb-0">
+                    <li>
+                        <a href="#">March 2014</a>
+                    </li>
+                    <li>
+                        <a href="#">February 2014</a>
+                    </li>
+                    <li>
+                        <a href="#">January 2014</a>
+                    </li>
+                    <li>
+                        <a href="#">December 2013</a>
+                    </li>
+                    <li>
+                        <a href="#">November 2013</a>
+                    </li>
+                    <li>
+                        <a href="#">October 2013</a>
+                    </li>
+                    <li>
+                        <a href="#">September 2013</a>
+                    </li>
+                    <li>
+                        <a href="#">August 2013</a>
+                    </li>
+                    <li>
+                        <a href="#">July 2013</a>
+                    </li>
+                    <li>
+                        <a href="#">June 2013</a>
+                    </li>
+                    <li>
+                        <a href="#">May 2013</a>
+                    </li>
+                    <li>
+                        <a href="#">April 2013</a>
+                    </li>
+                </ol>
+            </div>
+            <div class="p-3">
+                <h4 class="font-italic">Elsewhere</h4>
+                <ol class="list-unstyled">
+                    <li>
+                        <a href="#">GitHub</a>
+                    </li>
+                    <li>
+                        <a href="#">Twitter</a>
+                    </li>
+                    <li>
+                        <a href="#">Facebook</a>
+                    </li>
+                </ol>
+            </div>
+        </aside>
+        <!-- /.blog-sidebar -->
+    </div>
+
+
+</body>
+<footer class="blog-footer" style="background-color: rgb(35, 39, 43)!important; color:white! important; ">
+    <p>Letting thoughts stream with ease <a href="https://www.youtube.com/watch?v=K7768HfQ8U0">Thought Stream</a> by <a href="https://michael-elijah.com">Michael Elijah Rodriguez</a>.</p>
+    <p> <a href="#">Back to top</a> </p>
+</footer>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+
+

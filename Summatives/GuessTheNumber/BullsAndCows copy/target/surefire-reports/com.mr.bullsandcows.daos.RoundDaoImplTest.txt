@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.mr.bullsandcows.daos.RoundDaoImplTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.029 s <<< FAILURE! - in com.mr.bullsandcows.daos.RoundDaoImplTest
+testReadAllRounds(com.mr.bullsandcows.daos.RoundDaoImplTest)  Time elapsed: 0.017 s  <<< FAILURE!
+java.lang.AssertionError: expected:<2> but was:<8>
+	at com.mr.bullsandcows.daos.RoundDaoImplTest.testReadAllRounds(RoundDaoImplTest.java:85)
+

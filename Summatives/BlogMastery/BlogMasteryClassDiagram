@@ -1,0 +1,153 @@
+==============APP==============
+
+> com.mr.BlogMastery
+
++ PSVM -> SpringApplication.run
+@SpringBootApplication
+
+==============DTO================
+> com.mr.BlogMastery.DTO
+G/S + HASH + EQUALS + STRINGFY
+
+User 
+- userId int
+- firstName String
+- lastName  String
+- userName  String
+- email String
+- userPassword String 
+- posts List<Post>
+
+
+Role 
+- roleId int
+- role String
+- users List<Users>
+
+HashTag 
+- hashTagId int
+- hashTag String
+
+Post
+- postId int
+- user User
+- title String
+- published boolean
+- date LocalDate 
+- imgUrl String
+- post String
+- timePosted LocalDate
+- timeExpiration LocalDate
+- timeScheduled LocalDate
+- staticPage boolean 
+- comments List <Comment>
+- hashTags List <HashTag> 
+
+
+
+Comment 
+- commentId int
+- user User 
+- post Post
+- commentDate LocalDate
+- comment String
+
+Image 
+- imageTitle
+- image Image
+
+==============DAO===================
+> com.mr.BlogMastery.DAO
++DAO<T>  
+	+ Create(T DTO) : T DTO 
+	+ ReadAll() : List<T>
+	+ ReadById(int T id) : T
+	+ Update(T DTO) : T
+	+ Delete(int T id) : T
+
++UserDao : DAO<User>
+	- jdbc : jdbcTemplate
+	+ PostDao(jdbcTemplate jdbc) @Autowired
+	- getPostsByUser(integer userId) : List <Post> postList
+	- associateRolesAndUsers(List<User> users) : void
+
++RoleDao : DAO<Role>
+	- jdbc : Jdbc template 
+	+ UserDao(JdbcTemplate jdbc) @Autowired
+	- getUsersbyRole(int roleId) : List<Role> roleList
+
++HashTagDao : DAO<HashTag>
+
+	- jdbc : Jdbc template 
+	+ PostDao(JdbcTemplate jdbc) @Autowired
+	- getHashTag(int hashTagId) : HashTag
+
++PostDao : DAO<Post> 
+	- jdbc : Jdbc template 
+	+ CommentDao(JdbcTemplate jdbc) @Autowired
+	+ HashTagDao(JdbcTemplate jdbc) @Autowired
+	+ ImageTagDao(JdbcTemplate jdbc) @Autowired
+	- getUserByPost(int postId) : User user
+	- getImageByPost(int postId) : Image img
+	- associateHashTagsAndPost(List <HashTag> hashTags) : void
+	- associateCommentsAndPost(List <Comment> comments) : void
+	- associateImagesAndPost(List <Image> images) : void
+	- getCommentsByPost(int postId) : List<Comment> commentList
+	- getHashTagsByPost(int postId) : List<HashTag> hashTagList
+	- getImagesByPost(int postId) : List<Image> imageList
+
+
++ CommentDao : DAO<Comment>
+- jdbc : Jdbc template 
++ UserDao(JdbcTemplate jdbc) @Autowired
++ PostDao(JdbcTemplate jdbc) @Autowired
+- getUserByComment(int commentId) : User
+- getPostByComment(int commentId) : Post
+
+
+
+
++RowMapper<T>
++ mapRow(ResultSet rs, int i) throws SQLException
++ UserMapper : RowMapper<User>
++ RoleMapper : RowMapper<Role> 
++ HashTagMapper : RowMapper<HashTag>
++ PostMapper : RowMapper<Post>
++ CommentMapper : RowMapper<Comment>
+
+
+==============CONTROLLERS===================
+
+> com.mr.BlogMastery.Controller 
+	+ UserController
+		+ displayUsers(Model model) : String @GetMapping
+		+ addUser(HttoServletRequest request) @PostMapping
+		+ editUser(HttpServletRequest request, Model model) @GetMapping
+		+ performEditUser(HttpServletRequest request) @PostMapping
+	+ RoleController
+		+ displayRoles(Model model) : String @GetMapping
+		+ addRole(HttoServletRequest request) @PostMapping
+	+ HashTagController
+		+ displayHashTags(Model model) : String @GetMapping
+		+ addHashTag(HttoServletRequest request) @PostMapping
+		+ editHashTag(HttpSevelet request, Model model) @GetMapping
+		+ performEditUser(HttpServletRequest request) @PostMapping
+	    + deletehashTag(HttpServeltRequest request) @GetMapping
+	+ PostController
+		+ displayPosts(Model model) : String @GetMapping
+		+ addPost(HttoServletRequest request) @PostMapping
+		+ editPost(HttpSevelet request, Model model) @GetMapping
+		+ performEditPost(HttpServletRequest request) @PostMapping
+		+ deletePost(HttpServeltRequest request) @GetMapping
+	+ CommentController
+		+ displayComment(Model model) : String @GetMapping
+		+ addComment(HttoServletRequest request) @PostMapping
+	    + editComment(HttpSevelet request, Model model) @GetMapping
+		+ performEditComment(HttpServletRequest request) @PostMapping
+		+ deletehashTag(HttpServeltRequest request) @GetMapping
+
+
+
+
+
+

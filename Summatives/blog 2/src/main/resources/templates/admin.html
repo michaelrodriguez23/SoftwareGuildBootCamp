@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<head>
+
+
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Blog Home - Blog Mastery</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog-home.css" rel="stylesheet">
+
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="home">(っ◔◡◔)っ ♥ HOME ♥ </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <li role="presentation" class="nav-item">
+                        <a class="nav-link active" href="home">
+                            Home
+                        </a>
+                    </li>
+                    <li role="presentation" class="nav-item">
+                        <a class="nav-link" href="content">
+                            Content
+                        </a>
+                    </li>
+                    <li role="presentation" class="nav-item">
+                        <a class="nav-link" href="admin">
+                            Admin 
+                        </a>
+                    </li>
+
+                    <li class="nav-item " th:each="staticPost : ${staticPostList}">
+
+
+                        <a class =" nav-link btn-dark" th:href="@{/postDetails(id=${staticPost.postId})}">   
+                            <span th:text="${staticPost.title}"></span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+</head>
+<body>
+    <title></title>
+</head>
+
+<!--------------------------------Login--------------->
+<h2>Create New Post</h2>
+<div sec:authorize="isAuthenticated()">
+    <form class="form-inline" 
+          method="POST" 
+          action="/logout">
+        <input type="hidden" 
+               th:name="${_csrf.parameterName}" 
+               th:value="${_csrf.token}"/>
+        <label for="submit">
+            Hello : <span th:text="${#authentication.name}">
+            </span>&nbsp;&nbsp;&nbsp;|
+        </label>
+        <button class="btn btn-link" 
+                id="submit" 
+                type="submit">Logout</button>
+    </form>
+</div>
+</div>
+
+
+<div class="container mx-auto col-sm-12">
+    <h1> Admin Control Panel </h1>   
+    <div class="row">
+
+        <div class="card my-4">
+
+            <!--Table-->
+            <table id="tablePreview" class="table table-hover table-sm">
+                <!--Table head-->
+
+                <h4>Posts Pending To Be Published <h4>
+                        <thead>
+                            <tr>
+                                <th>Post ID</th>
+                                <th>Name</th>
+                                <th>Title</th>
+                                <th>Published</th>
+                                <th>Static</th>
+                                <th>Date Posted</th>
+                                <!--    <th>Time Posted</th> -->
+                                <th>Publish</th>
+                                <th>Delete</th>
+
+                            </tr>
+                        </thead>
+                        <!--Table head-->
+                        <!--Table body-->
+
+                        <tr>
+                        <tbody>
+                            <tr th:each="post : ${posts}">
+
+                                <td th:text="${post.postId}">postId</td> 
+                                <td th:text="${post.user.userName}">userName</td> 
+                                <td th:text="${post.title}">Title</td>
+                                <td th:text="${post.published}">Publish</td>
+                                <td th:text="${post.staticPageFlag}">Static/Post</td>
+                                <td th:text="${post.date}">Time</td>
+                                <!--   <td th:text="${post.timePosted}">Time</td> -->
+                                <td><a href="#" th:href="@{/publishPost(id=${post.postId})}">Publish</a></td>
+                                <td><a href="#" th:href="@{/deletePost(id=${post.postId})}">Delete</a></td>
+                        <input type="hidden" name="postId" th:value="${post.postId}"/>
+
+                        </tbody>
+                        <!--Table body-->
+                        </table>
+                        <!--Table-->
+                        </div>
+                        </div>
+
+                        <!-- Static Post Widget --> 
+                        <div class="row">
+
+                            <div class="card my-4">
+
+                                <!--Table-->
+                                <table id="tablePreview" class="table table-hover table-sm">
+                                    <!--Table head-->
+
+                                    <h4>Static Posts <h4>
+                                            <thead>
+                                                <tr>
+                                                    <th>Post ID</th>
+                                                    <th>Name</th>
+                                                    <th>Title</th>
+                                                    <th>Published</th>
+                                                    <th>Static</th>
+                                                    <th>Date Posted</th>
+                                                    <!--  <th>Time Posted</th> -->
+                                                    <th>Edit</th>
+                                                    <th>Delete</th>
+
+                                                </tr>
+                                            </thead>
+                                            <!--Table head-->
+                                            <!--Table body-->
+
+                                            <tr>
+                                            <tbody>
+                                                <tr th:each="staticPost : ${staticPostList}">
+
+                                                    <td th:text="${staticPost.postId}">postId</td> 
+                                                    <td th:text="${staticPost.user.userName}">userName</td> 
+                                                    <td th:text="${staticPost.title}">Title</td>
+                                                    <td th:text="${staticPost.published}">Publish</td>
+                                                    <td th:text="${staticPost.staticPageFlag}">Static/Post</td>
+                                                    <td th:text="${staticPost.date}">Time</td>
+                                                    <!-- <td th:text="${staticPost.timePosted}">Time</td> -->
+
+                                                    <td><a th:href="@{/editPost(id=${staticPost.postId})}">Edit</a></td>
+                                                    <td><a th:href="@{/deletePost(id=${staticPost.postId})}">Delete</a></td>
+                                            <input type="hidden" name="postId" th:value="${staticPost.postId}"/>
+
+                                            </tbody>
+                                            <!--Table body-->
+                                            </table>
+                                            <!--Table-->
+                                            </div>
+                                            </div>
+
+
+                                            <!----- Hashtags ------------> 
+                                            <div class="row">
+
+                                                <div class="card my-4">
+
+                                                    <!--Table-->
+                                                    <table id="tablePreview" class="table table-hover table-sm">
+                                                        <!--Table head-->
+
+                                                        <h4>HashTags <h4>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>HashTag ID</th>
+                                                                        <th>Name</th>
+                                                                        <th>Add Tag </th>
+
+                                                                        <th>Edit</th>
+                                                                        <th>Delete</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <!--Table head-->
+                                                                <!--Table body-->
+                                                              
+
+
+                                                                <tr>
+                                                                <tbody>
+                                                                    <tr th:each="hashTag : ${hashTagList}">
+
+                                                                        <td th:text="${hashTag.hashTagId}">HashTagId</td> 
+                                                                        <td th:text="${hashTag.hashTag}">Name</td> 
+                                                                        <td> <a href="ReDirectTag" > Add </a></td>
+                                                                         <td><a th:href="@{/editHashTag(id=${hashTag.hashTagId})}">Edit</a></td>
+                                                                         <td><a th:href="@{/deleteHashTag(id=${hashTag.hashTagId})}">Delete</a></td>
+
+                                                              
+
+                                                                </tbody>
+                                                                <!--Table body-->
+                                                                </table>
+                                                                <!--Table-->
+                                                                </div>
+                                                                </div>
+
+
+
+                                                                    <!-- 2nd Widget --> 
+                                                                    <div class="row">
+
+
+                                                                        <div class="card my-4">
+
+                                                                            <!--Table-->
+                                                                            <table id="tablePreview" class="table table-hover table-sm">
+                                                                                <!--Table head-->
+
+                                                                                <h4>Blog Posts<h4>
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>Post ID</th>
+                                                                                                <th>Name</th>
+                                                                                                <th>Title</th>
+                                                                                                <th>Published</th>
+                                                                                                <th>Static</th>
+                                                                                                <th>Date Posted</th>
+                                                                                                <!--     <th>Time Posted</th> -->
+                                                                                                <th>Edit</th>
+                                                                                                <th>Delete</th>
+
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <!--Table head-->
+                                                                                        <!--Table body-->
+
+                                                                                        <tr>
+                                                                                        <tbody>
+                                                                                            <tr th:each="blogPost : ${blogList}">
+
+                                                                                                <td th:text="${blogPost.postId}">postId</td> 
+                                                                                                <td th:text="${blogPost.user.userName}">userName</td> 
+                                                                                                <td th:text="${blogPost.title}">Title</td>
+                                                                                                <td th:text="${blogPost.published}">Publish</td>
+                                                                                                <td th:text="${blogPost.staticPageFlag}">Static/Post</td>
+                                                                                                <td th:text="${blogPost.date}">Time</td>
+                                                                                                <!--  <td th:text="${blogPost.timePosted}">Time</td> -->
+
+                                                                                                <td><a th:href="@{/editPost(id=${blogPost.postId})}">Edit</a></td>
+                                                                                                <td><a th:href="@{/deletePost(id=${blogPost.postId})}">Delete</a></td>
+                                                                                        <input type="hidden" name="postId" th:value="${blogPost.postId}"/>
+
+                                                                                        </tbody>
+                                                                                        <!--Table body-->
+                                                                                        </table>
+                                                                                        <!--Table-->
+                                                                                        </div>
+                                                                                        </div>
+
+                                                                                        <div>
+
+
+
+                                                                                            <!-- Enable Widget --> 
+                                                                                            <div class="card my-4">
+
+                                                                                                <!--Table-->
+                                                                                                <table id="tablePreview" class="table table-hover table-sm">
+                                                                                                    <!--Table head-->
+
+                                                                                                    <h4>Users <h4>
+                                                                                                            <thead>
+                                                                                                                <tr>
+                                                                                                                    <th>User Id</th>
+                                                                                                                    <th>First Name</th>
+                                                                                                                    <th>Last Name</th>                                                                                              
+                                                                                                                    <th>email</th>
+                                                                                                                    <th>Username</th>
+                                                                                                                    <th>enabled</th>
+                                                                                                                    <th>Edit</th>
+
+
+                                                                                                                </tr>
+                                                                                                            </thead>
+                                                                                                            <!--Table head-->
+                                                                                                            <!--Table body-->
+
+                                                                                                            <tr>
+                                                                                                            <tbody>
+                                                                                                                <tr th:each="user : ${userList}">
+
+                                                                                                                    <td th:text="${user.userId}">postId</td> 
+                                                                                                                    <td th:text="${user.firstName}">userName</td> 
+                                                                                                                    <td th:text="${user.lastName}">Title</td>
+                                                                                                                    <td th:text="${user.email}">Publish</td>
+                                                                                                                    <td th:text="${user.userName}">Static/Post</td>
+                                                                                                                    <td th:text="${user.enabled}">Time</td>
+
+                                                                                                                    <td><a th:href="@{/editUser(id=${user.userId})}">Edit</a></td>
+                                                                                                            <input type="hidden" name="userId" th:value="${user.userId}"/>
+
+                                                                                                            </tbody>
+                                                                                                            <!--Table body-->
+                                                                                                            </table>
+                                                                                                            <!--Table-->
+                                                                                                            </div>
+                                                                                                            </div>
+
+                                                                                                            <div>
+
+
+
+                                                                                                                </footer>
+
+                                                                                                                <!-- Bootstrap core JavaScript -->
+                                                                                                                <script src="vendor/jquery/jquery.min.js"></script>
+                                                                                                                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                                                                                                                <!-- JS, Popper.js, and jQuery -->
+                                                                                                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                                                                                                                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+                                                                                                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+                                                                                                                </body>
+
+

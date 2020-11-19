@@ -1,0 +1,258 @@
+REST Web Sertvices via jQuery
+
+Jquery is a library part of javascript helps in-browser programming, and helps normalize behaviour across many browsers. 
+
+JavScript listens to the browser events like button clicks, and mouse movement. It can also construct and send http request sent to a remote REST server may modify the data managed by the server or fetch data. 
+
+Data sent and recieved is often serialized as JSON. THe JSON format works well with JavaScript. Javascript may create new HTML, edit HTML, or remove HTML. 
+
+
+REST & SOAP are the most common types of web services. 
+- SOAP uses XML. SOAP is * action-centric 
+- REST uses JSON(althought REST can use XML, not common) * * Resource-centric. 
+
+SOAP approach is very familiar to oop because its endpoints are set up like a collection of method calls. These endpoints describe actions that can be performed on a particular resource. 
+
+/getAddress?id=43 or /deleteAddress?id=43
+
+REST, Identifies resources then usees HTTP methods to describe what action should be taken on the resource. 
+
+HTTP Method GET for /address/43 retrieves the address with id=43.
+
+HTTP Method DELETE for /address/43 deletes the address with id=43.
+
+=============REST Web Services=================== 
+
+REST :
+ Representation State Transfer. REST is not a standard or framework, rather , it is an architercutal syle or overall design approach for building web services. 
+
+REST generally uses HTTP, URI's, JavaScript, Ajax, and either JSON or XML. 
+URIS: Uniform Resource Identifiers. 
+URLS: Uniform Resource Locators. 
+
+URI identfies a resource but might not indicate its location, where as a URL both identifies and resource , and specieifes its location . 
+
+REST web services are organized resources or nouns. For example a web service may deal with entries in an address book or items of clothing in a a store inventory. 
+
+THe interactions with these resources are speciefied using HTTP methods. These are the verbs. CRUD these resources is specified using HTTP methods POST,GET,PUT, and DELETE. 
+
+The combo of URL and an HTTP method is known as an endpoint. 
+
+HTTP Method GET for /address/43
+
+HTTP Method DELETE for /address/43
+
+
+=========Properties of HTTP methods===============
+
+Defined behaviours of the various HTTP methods give them different properties. 
+
+GET is considered a safe operations , because it doesnt produce and side effects or changes to the system. It just retrieves a resource. 
+
+PUT AND DELETE are idempotent operations : This means that sending the same PUT or Delete request several times has the same effect as just sending the request once. 
+
+POST is neithere safe nor idempotent; if we send a POST request with information for a new address in our address book then we have one new address in our book. If we send the same POST 15 times then we have 15 identical address entries. BE CAREFUL WITH POST **** 
+
+=============SOAP Web Services=============
+
+SOAP is a protocol . It is more formal than REST>
+SOAP originally stood for SIMPLE OBJECT ACCESS PROTOCOL, but has evolved into a gneral purpose XML messaging framework. 
+
+Communication and Message Format: 
+
+	SOAP most commonly uses HTTP to send and recieve messages. IT can use any of several different protocols including SMTP(mail) or Java message service. SOAP messages are always encoded in XML and have a fairly complex structure. Each message consists of an envelope that contains an optional head and body of the message. 
+
+	SOAP can be thought of as a remote procedure or method calls. Rather than specifiying a resource, each messages is an action and the resource/resources to be acted upon are passed in as parameters to the procedure or method. 
+
+
+=============JQUERY=============
+Functionality -> 
+	Hides the differences between browsers. 
+	Jquery is really good at DOM manipulation. We can use JQUERY to change the HTML/CSS/JAVASCRIPT from the webpage. 
+	Jquery allows us easy write code for responsive browser events
+	Make Ajax calls to web services. 
+
+	a CDN (which stands for content delivery network) is a URL that provides the address for code files on a hosted content server. While it is possible to download the files and save them to your website, CDNs are generally easier to use, both from a developer's point of view and to improve the end-user experience.
+
+
+
+	We created a wireframe -> for each method in the code 
+
+	====== BootStrap ============
+
+	Is a gridding system that is controlled by css styling. 
+
+	-> we can download source files, but we can use CDN . Where we can used cached data, benifits is the cdn is that it will make websites load faster, but cdns can be down. 
+
+===========HTML CSS =============
+
+Look into getting nice with Emmet package shortcuts 
+container class from bootStrap makes the tables fixed, when you add fluid is makes it adapt to the size of the webpage. 
+
+Container class makes it fixed to the center of the webpage. 
+Typically you put styles on the  top of the page, because you want the styles to be applied while the page is loading! 
+
+<a></a> Anchor tags make things clickable 
+  <a href="#"  <i class= "fa fa-trash"></i></a>
+
+  <div class= "form-group pull right"></div> 
+
+  pull right moves div to the right side. 
+  form-group is a bootstrap class . 
+We can select things from an Id with the #
+
+===========NOTES======================
+
+Follow the wireframe match the lms 
+You click the actual 
+
+Vending Machine only has two web service + get all items + purchase one! 
+
+HTML is the view, and wire up the buttons to do the things that u want to do . 
+
+The wire ups will call the webservices. 
+
+
+
+=============AJAX================
+
+Ajax stadnds for Asynchronous JavaScript and XML. 
+CLients ussually have Javascript code running in the browser. 
+use Ajax to exhange data with web services. This approach is used entensively in modern web applications to help give them the feel of a desktop application. 
+
+It is smoother because HTML page does not reload when making an AJax call. The ajax call is made, data is returned from the web service, and Javascript code dynamically updates only the portions of the page that needed to be updated. 
+
+All client code in this class will be written in JavaScript  and will run in the browser. 
+We will use the Jquery Javascript Library to help make our Ajax Calls, process the returned data, and dynamically update the HTML page. The web services that we will call and build are all REST-based and will use JSOn as our data format. 
+
+Rest is Representational state transfer. It is an software architectual style that defines a set of constraints to be used for creating web services. 
+
+Ajax is not a single thing- It is a collection of technologies that are used together in a particular programming approach. 
+
+
+AJAX is made of 
+
+XMLHttpRequest(XHR): 
+This is the piece that makes it possible for javascript code running in the browser to exchange data with the server.
+XHR is the Api that allows the javascript to send request and recieve responds via HTTP/HTTPS
+
+JavaScript: 
+it will be a combination of JavaScript and Jquery javascript library to make XHR calls, process and return data, and update the HTML page with the results of the XHR calls. javascript also process the calls , and may make HTTP request if needed.
+
+HTML & CSS : is what is used to build our user interface. As mentioned in the previous item, well use jQuery and Javascript to update the HTML and CSS based on the results of XHR calls. 
+
+JSON OR XML : 
+Ajax generally used either JSON or XML format to exchange data between client and Server. We will use JSON exclusively in this class. Json/ XML does the Serialization. 
+
+All browser use same origin policy : meaning the browser can only make calls to the browser it came from . 
+
+This prevents cross site scripting and attacks. 
+
+CORS : Cross Origin Resource Sharing
+Limited resource sharing
+HEAD 
+GET 
+POST
+hTTP methods
+
+Supports plain text, UML,
+
+Allows different implementations of resource sharing with other servers. 
+WhiteList allows access to certain domains. 
+
+ ======Call-Backs======
+
+ Call backs are a function that u pass into the parameter of a function -> 
+ There is a variety of responses that can happen. 
+
+ NETBEANS is local to the machine, 
+
+ Call back function happens when it eventually hears back from the service, when your back I want you to run a certain callback function 
+
+
+ AJAX we need to seperate whats getting + retrieving data from the VIEW. 
+
+ DataService only job is to retrieve data. 
+ It doesnt care about the data. 
+
+ -> the call back function decides what to do with it. 
+
+
+self.getDvds = function (callback, myErrorFunc) { 
+ $.ajax({
+}
+url: 'http://localhost:8080/dvd/' + dvdId,  -> where we will be 
+method : 'GET',
+sucess: callback, 
+error: myErrorFunc
+ });
+ } 
+
+self.addDvd = function (callback, myErrorFunc) { 
+ $.ajax({
+}
+url: 'http://localhost:8080/dvds,  -> where we will be 
+method : 'POST',
+data: JSON.stringify(dvd), -> This takes an object and prints it out as a JSON format as text. 
+dataType: 'application/json'
+sucess: callback, 
+error: myErrorFunc
+ });
+ } 
+
+
+
+
+
+
+// POST - create
+// GET - Read
+// PUT - Update
+// DELETE - Delete
+
+
+Headers -> You are addressing the envelope. 
+Postman creates the headers for you. 
+
+it gets addressed and stampedand sends it to the server, understands if it is JSOn, and then returns it back as JSON 
+
+JSON JavaScript Object Notation
+It is a syntax for storing and exchanging data. 
+JSON is text/ written with JavaScript object notation. 
+
+
+AJAX is a bridge to any WEB API 
+
+AJAX is Asyncrously, behind the scenes it is sending a request to update data constantly. Waiting to recieve data. 
+
+XML doesn't really get used much anymore, JSON is much smaller through the wire . 
+
+
+AJAX allows me to call another website, get the data from that site, and puts it back on my site. 
+
+
+
+
+=========HOW TO TACKLE THIS PROJECT================
+
+
+Wire Up the HTML 
+Create Dummy Data 
+Write the forms with buttons 
+Wire buttons up with listeners -> blank methods -> Alert Statements
+Then add functionality in those buttons! 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

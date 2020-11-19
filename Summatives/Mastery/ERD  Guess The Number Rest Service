@@ -1,0 +1,110 @@
+ERD  Guess The Number Rest Service
+
+Round has one Game
+
+Game can have many rounds
+
+One to many relationship. 
+One Game has many Rounds
+
+// make note that the RoundId doesn't
+// correlate to the round , the timeStamp of the Id indicates which round  it is
+
+=============ERD===================
+Round
+	RoundId pk ai not null
+	GameId int fk (Game) not null
+	Guess char(4) not null
+	TimeStamp date not null
+
+Game
+	GameId Ai pk not null
+	FourDigitNumber char(4) not null
+	Status varChar(11) not null
+=============DTO====================
+Round
+	RoundId : int
+	GameId : int
+	Guess : String
+	TimeStamp : Date
+	Game : Game
+Game
+	GameId : int
+	FourDigitNumber : String
+	Status : String 
+	Round : List<Round> 
+
+==============DAO===================
++DAO<T>  
+	+ Create(T DTO) : T DTO 
+	+ ReadAll() : List<T>
+	+ ReadById(int T id) : T
+	+ Update(T DTO) : T
+	+ Delete(int T id) : T
+
++RoundDao : DAO<Round>
+	- jdbc : Jdbc template 
+	+ RoundDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Round
+	- getGame(int GameId)  : Game
+
++GameDao : DAO<Game> 
+	- jdbc : Jdbc template 
+	+ GameDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Round
+	- getGame(int GameId)  : Game
+
++RowMapper<T>
+	+ mapRow(ResultSet rs, int i) throws SQLException
++RoundMapper : RowMapper<Round>
++GameMapper : RowMapper<Game> 
+
+=============Class Diagram================
+>com.mr.GuessTheNumber.dtos
+	
+ 	+Round
+		-RoundId : int 
+		-Guess : String
+		-TimeStamp : Date
+
+	+Game
+		-GameId : int
+		-FourDigitNumber : String
+		-Status : Boolean / Bit 
+
+>com.mr.GuessTheNumber.Daos
+	
++DAO<T>  
+	+Create(T DTO) : T 
+	+ReadAll() : List<T>
+	+ReadById(int id) : void 
+	+Update(T DTO) : void
+
++RoundDao : DAO<Round>
+	- dataSource : connection
+	- jdbc : Jdbc template 
+	+ roundDao(JdbcTemplate jdbc)
+	- getRound(int RoundId) : Round
+	- getGame(int GameId)  : Game
+
++ RoundFileImpl : RoundDao
+	- Rounds :  List <Round>
+	+ RoundMapper : 
++GameDao : DAO<Game> 
+	-jdbc : Jdbc template 
+	+GameDao(JdbcTemplate jdbc)
+	-getRound(int RoundId) : Round
+	-getGame(int GameId)  : Game
+
+
+
+
+
+
+
+ 
+
+
+
+
+

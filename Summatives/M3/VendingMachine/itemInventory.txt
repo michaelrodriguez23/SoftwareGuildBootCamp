@@ -1,0 +1,11 @@
+A1::Pocky::2.25::0
+A2::Sweedish Fish::1.00::5
+A3::Skittles::1.25::10
+B11::Doritos::1.25::2
+A4::Can Coffee::1.25::18
+A5::Phone Charger::1.25::99
+A6::Bike Tire::1.25::0
+A7::Advil::1.25::19
+A8::HighChew::1.50::7
+A9::Gummy Bears::2.25::0
+B1::Snapple::1.00::10
