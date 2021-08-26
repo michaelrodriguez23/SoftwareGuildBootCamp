@@ -114,7 +114,7 @@ public class OrderDaoFileProdImpl implements OrderDao {
         PrintWriter out;
         try {
             // PrintWriter Instantiated : with fileName pointing at the Orders_dateTimetoString.txt.
-            out = new PrintWriter(new FileWriter("/Users/michaelrodriguez/Documents/lagcc-java-c9-michaelrodriguez23/Summatives/FlooringOrdersMastery/Flooring/data/" + orderFileName));
+            out = new PrintWriter(new FileWriter("/Users/michaelrodriguez/Documents/OnlineProjects/Code/SoftwareGuildBootCamp/Summatives/FlooringOrdersMastery/Flooring/data/" + orderFileName));
 
             String orderAsText;
 
